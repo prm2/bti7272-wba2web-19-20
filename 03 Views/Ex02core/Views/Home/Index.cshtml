@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Images</h1>
+    @for (int i=0; i<(int)(ViewData["ImageCount"]); i++)
+    {
+        <a href="/home/image/@i" alt="Image @i" style="margin:10px;"><img src="/image/thumbnail/@(i)?size=180" /></a>
+    }
+</div>
