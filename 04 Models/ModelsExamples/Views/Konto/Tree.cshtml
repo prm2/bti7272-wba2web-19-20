@@ -1,0 +1,11 @@
+﻿@model KontoGruppenListe
+@{
+    ViewData["Title"] = "Funktionen";
+}
+
+<h1>Funktionen</h1>
+
+@foreach (var g in Model)
+{
+    <partial name="_TreeItem" model="g" />
+}

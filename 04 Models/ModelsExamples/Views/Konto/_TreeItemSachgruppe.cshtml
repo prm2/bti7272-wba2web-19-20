@@ -1,0 +1,14 @@
+﻿@model KontoGruppe
+
+<a asp-route-sachgruppe="@Model.Id" 
+   asp-route-funktion="@ViewData["SelectedFunktion"]"
+   class='tree-level-@Model.Level @(Model.Id.Equals(ViewData["SelectedSachgruppe"]) ? "selected" : "")'>
+    <b>@Model.Id</b>
+    &nbsp; &nbsp;
+    @Model.Name
+</a>
+
+@foreach (var g in Model.Untergruppen)
+{
+    <partial name="_TreeItemSachgruppe" model="g" />
+}

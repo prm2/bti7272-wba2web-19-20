@@ -1,0 +1,49 @@
+﻿@model ER_IR_ViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["SelectedSachgruppe"] = Model?.Konto?.Sachgruppe?.Id;
+    ViewData["SelectedFunktion"] = Model?.Konto?.Funktion?.Id;
+}
+
+<h1>@Model.Title</h1>
+
+<h3>Konti</h3>
+
+@if (Model.Konten.Count < 1)
+{
+    <p>(noch keine Konten erfasst</p>
+}
+else
+{
+    foreach (var k in Model.Konten.Values)
+    {
+        <div class='tree-level-5'>
+            <b>@k.Kontonummer</b>
+            &nbsp; &nbsp;
+            @k.Name
+        </div>
+    }
+}
+
+@if ((Model.Konto.Funktion != null) && (Model.Konto.Sachgruppe != null))
+{
+    <a asp-route-sachgruppe="@Model.Konto.Sachgruppe.Id"
+       asp-route-funktion="@Model.Konto.Funktion.Id"
+       asp-route-type="@ViewData["Type"]"
+       asp-action="Create">
+        neues Konto &quot;@(Model.Konto.Funktion.Id).@(Model.Konto.Sachgruppe.Id).xx&quot; erstellen
+    </a>
+}
+
+<div class="row">
+    <div class="col">
+        <h4>Funktionen</h4>
+        <partial name="_TreeFunktion" model="Model.Funktionen" />
+    </div>
+    <div class="col">
+        <h4>Sachgruppen</h4>
+        <partial name="_TreeSachgruppe" model="Model.Sachgruppen" />
+    </div>
+</div>
+

@@ -1,0 +1,31 @@
+﻿@model Konto
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Neues Konto erstellen</h1>
+
+<form asp-action="Create" method="post">
+    
+    Funktion:<br />
+    &nbsp; <b>@Model.Funktion?.Id &nbsp; @Model.Funktion?.Name</b><br />
+    
+    Sachgruppe:<br />
+    &nbsp; <b>@Model.Sachgruppe?.Id &nbsp; @Model.Sachgruppe?.Name</b><br /><br />
+    
+    Nummer:
+    &nbsp; <b>@(Model.Funktion?.Id).@(Model.Sachgruppe?.Id).</b><input asp-for="Nummer" /><br />
+    <span asp-validation-for="Nummer"></span><br />
+    
+    Name:
+    &nbsp; <input asp-for="Name" /><br /><br />
+    <span asp-validation-for="Name"></span><br />
+
+    <button type="submit">speichern</button>
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <input type="hidden" name="sachgruppe" value="@Model.Sachgruppe?.Id" />
+    <input type="hidden" name="funktion" value="@Model.Funktion?.Id" />
+    <input type="hidden" name="type" value="@ViewData["type"]" />
+</form>
+
