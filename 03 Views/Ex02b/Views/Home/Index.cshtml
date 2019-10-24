@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Departments</h1>
+
+
+<select asp-items='Dept.Departments.Select(d => new SelectListItem 
+{ 
+    Text = d.Name, 
+    Value = d.Id, 
+    Selected = d.Id.Equals((string)ViewData["selected"], StringComparison.OrdinalIgnoreCase) 
+})'>
+</select>
+
+
+<h2>with custom tag helper</h2>
+
+<department-list selected='@ViewData["selected"]'></department-list>
+
