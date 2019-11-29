@@ -1,0 +1,15 @@
+﻿@model AccountGroup
+
+<div class="tree-item tree-item-@Model.Level" data-id="@Model.Id" data-level="@Model.Level" >
+    <b>@Model.Id</b> &nbsp; &nbsp; @Model.Name
+</div>
+<div class="tree-item-children" data-id="@Model.Id" style="display:none;">
+    @if (Model.Level < 4)
+    {
+        @foreach (var g in Model.SubGroups.OrderBy(g => g.Id))
+        {
+            <partial name="_Tree" model="g" />
+        }
+    }
+</div>
+

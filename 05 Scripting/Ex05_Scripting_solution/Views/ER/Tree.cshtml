@@ -1,0 +1,23 @@
+﻿@model IEnumerable<AccountGroup>
+@{
+    ViewData["Title"] = "Tree";
+}
+
+<h1>Kontenplan Erfolgsrechnung</h1>
+
+@foreach (var g in Model.Where(g => g.Level == 1).OrderBy(g => g.Id))
+{
+    <partial name="_Tree" model="g" />
+}
+
+@section scripts {
+    <script>
+        var baseUrl = '@Url.Action("xyz")';
+        baseUrl = baseUrl.substr(0, baseUrl.length - 3);
+        var er = new ER(baseUrl);
+
+        $(".tree-item").click(function () {
+            er.treeItemClick($(this).data("id"), $(this).data("level"));
+        });
+    </script>
+}

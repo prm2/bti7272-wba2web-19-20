@@ -1,0 +1,33 @@
+﻿@model Ex05_Scripting.Models.Account
+
+<form id="formAccount">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Type" />
+    <input type="hidden" asp-for="FunctionId" />
+    <input type="hidden" asp-for="FunctionType  " />
+    <div class="form-group">
+        <label class="control-label">Sachgruppe</label>
+        <input asp-for="SubjectId" class="form-control" style="width:8em;" />
+        <span asp-validation-for="SubjectId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Nummer</label>
+        <input asp-for="Number" class="form-control " style="width:8em;" />
+        <span asp-validation-for="Number" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Bezeichnung</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input id="btnSubmit" type="button" value="Save" class="btn btn-primary" /> &nbsp;
+        <input id="btnCancel" type="button" value="Cancel" class="btn btn-danger" />
+    </div>
+</form>
+
+<script>
+    $("#btnSubmit").click(function () { er.submit($("#formAccount"), '@ViewBag.IsNew', '@Model.Id'); });
+    $("#btnCancel").click(function () { er.cancel(); });
+</script>
+

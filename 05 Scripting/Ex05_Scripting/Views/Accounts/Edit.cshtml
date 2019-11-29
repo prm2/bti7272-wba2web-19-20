@@ -1,0 +1,42 @@
+﻿@model Ex05_Scripting.Models.Account
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Account</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Type" />
+            <input type="hidden" asp-for="SubjectId" />
+            <div class="form-group">
+                <label asp-for="FunctionType" class="control-label"></label>
+                <select asp-for="FunctionType" class="form-control" asp-items="ViewBag.FunctionType"></select>
+                <span asp-validation-for="FunctionType" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="FunctionId" />
+            <input type="hidden" asp-for="Number" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

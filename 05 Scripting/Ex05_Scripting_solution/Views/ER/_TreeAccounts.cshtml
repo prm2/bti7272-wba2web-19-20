@@ -1,0 +1,32 @@
+﻿@model AccountGroup
+
+@if (Model.FunctionAccounts.Count > 0)
+{
+    foreach (var g in Model.FunctionAccounts.OrderBy(g => g.Id))
+    {
+        <partial name="_TreeAccount" model="g" />
+    }
+}
+else
+{
+    <div class="tree-item tree-item-account">
+        noch keine Konten in dieser Gruppe
+    </div>
+}
+<div class="tree-item tree-item-account">
+    <i class="fas fa-plus icon-create"></i> &nbsp; neues Konto hinzufügen
+</div>
+
+<partial name="_SelectSubject" />
+
+<script>
+    $(".tree-item-children[data-id='@(Model.Id)'] .icon-create").click(function () {
+        er.create('@(Model.Id)', $(this).parent());
+    });
+    $(".tree-item-children[data-id='@(Model.Id)'] .icon-edit").click(function () {
+        er.edit($(this).data("id"), $(this).parent());
+    });
+    $(".tree-item-children[data-id='@(Model.Id)'] .icon-delete").click(function () {
+        er.delete($(this).data("id"));
+    });
+</script>

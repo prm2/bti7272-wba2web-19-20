@@ -1,0 +1,10 @@
+﻿<div id="searchSubjects" style="position:relative;">
+    <input />
+</div>
+
+<script>
+    $("#searchSubjects input").keyup(function () {
+        let subjects = searchSubjects($("#searchSubjects input").val(), 10);
+        console.log(subjects);
+    });
+</script>
