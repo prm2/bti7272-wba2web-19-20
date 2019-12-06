@@ -1,0 +1,52 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+table.tictactoe {
+    width:450px;
+    height:450px;
+}
+table.tictactoe * td,
+table.tictactoe * td:hover,
+table.tictactoe * td.set,
+table.tictactoe * td.set:hover {
+    width:150px;
+    height:150px;
+    background:#ffeecc;
+    border: 5px solid #ff7733;
+    color: #ff7733;
+    font-size:100px;
+    font-weight:bolder;
+    text-align:center;
+    cursor:pointer;
+    padding: 0px;
+}
+table.tictactoe * td:hover {
+    background:#ffffbb;
+}
+table.tictactoe * td.set,
+table.tictactoe * td.set:hover {
+    background:#ffaa88;
+    cursor:no-drop;
+}
