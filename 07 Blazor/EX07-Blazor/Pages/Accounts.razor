@@ -1,0 +1,45 @@
+﻿@page "/accounts"
+
+@using DataLayer
+@using DataLayer.Models
+@inject DataService DataService
+
+<h1>Accounts</h1>
+
+@if (accounts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Subject</th>
+                <th>Number</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in accounts)
+            {
+                <tr>
+                    <td>@a.FunctionId</td>
+                    <td>@a.SubjectId</td>
+                    <td>@a.Number</td>
+                    <td>@a.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IEnumerable<Account> accounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        accounts = await DataService.AccountsAsync();
+    }
+}

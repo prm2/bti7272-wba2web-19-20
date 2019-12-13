@@ -1,0 +1,62 @@
+﻿@using DataLayer
+@using DataLayer.Models
+@inject DataService DataService
+
+<div class="tree-item tree-item-@Group.Level" data-id="@Group.Id" data-level="@Group.Level"
+     @onclick="ToggleExpanded">
+    <b>@Group.Id</b> &nbsp; &nbsp; @Group.Name
+</div>
+<div class="tree-item-children" data-id="@Group.Id" style="display:@((Expanded) ? "block" : "none");">
+    @if (Group.Level < 4)
+    {
+        @foreach (var g in Group.SubGroups.OrderBy(g => g.Id))
+        {
+            <Tree Group="@g" />
+        }
+    }
+    else
+    {
+        if (Accounts == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            if (Accounts.Count > 0)
+            {
+                foreach (var g in Accounts)
+                {
+                    <TreeAccount Account="@g" />
+                }
+            }
+            else
+            {
+                <div class="tree-item tree-item-account">
+                    noch keine Konten in dieser Gruppe
+                </div>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public AccountGroup Group { get; set; }
+
+    [Parameter]
+    public bool Expanded { get; set; } = false;
+
+    List<Account> Accounts { get; set; }
+
+    async void ToggleExpanded()
+    {
+        Accounts = null;
+        Expanded = !Expanded;
+
+        if (Expanded)
+        {
+            Accounts = (await DataService.AccountsAsync(Group.Id)).OrderBy(g => g.Id).ToList();
+            StateHasChanged();
+        }
+    }
+}

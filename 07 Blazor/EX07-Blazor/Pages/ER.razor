@@ -1,0 +1,28 @@
+﻿@page "/er"
+
+@using DataLayer
+@using DataLayer.Models
+@inject DataService DataService
+
+<h3>ER</h3>
+
+@if (tree == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var g in tree.Where(g => g.Level == 1).OrderBy(g => g.Id))
+    {
+        <Tree Group="@g" />
+    }
+}
+
+@code {
+    IEnumerable<AccountGroup> tree;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tree = await DataService.ER();
+    }
+}

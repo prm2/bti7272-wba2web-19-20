@@ -1,0 +1,12 @@
+﻿@using DataLayer.Models
+
+<div class="tree-item tree-item-account">
+    <i class="fas fa-edit icon-edit" data-id="@Account.Id"></i>&nbsp;
+    <i class="fas fa-trash-alt icon-delete" data-id="@Account.Id"></i> &nbsp;
+    <b>@Account.Id</b> &nbsp; &nbsp; @Account.Name
+</div>
+
+@code {
+    [Parameter]
+    public Account Account { get; set; }
+}
