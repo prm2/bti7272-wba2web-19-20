@@ -1,0 +1,42 @@
+        window.showLegend = (id, items) => {
+            console.log(items);
+            d3.select(id)
+                .selectAll("p")
+                .data(items)
+                .enter()
+                .append("p")
+                .text(i => i.accountGroup.name);
+        };
+        window.showPieChart = (id, items) => {
+            var data = [2, 4, 8, 10];
+
+            var svg = d3.select(id + " svg");
+            var width = svg.attr("width");
+            var height = svg.attr("height");
+            var radius = Math.min(width, height) / 2;
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3','#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+
+            // Generate the pie
+            var pie = d3.pie().sort(null).value(d => d.amount);
+
+            // Generate the arcs
+            var arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius);
+
+            //Generate groups
+            var arcs = g.selectAll("arc")
+                .data(pie(items))
+                .enter()
+                .append("g")
+                .attr("class", "arc")
+
+            //Draw arc paths
+            arcs.append("path")
+                .attr("fill", function (d, i) {
+                    return color(i);
+                })
+                .attr("d", arc);
+        };
