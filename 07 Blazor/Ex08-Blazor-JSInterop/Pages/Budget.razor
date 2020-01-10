@@ -1,0 +1,41 @@
+﻿@page "/budget"
+@using Models
+
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+<button class="btn btn-primary" @onclick="() => loadBudget(2015)">2015</button>
+<button class="btn btn-primary" @onclick="() => loadBudget(2016)">2016</button>
+<button class="btn btn-primary" @onclick="() => loadBudget(2017)">2017</button>
+<button class="btn btn-primary" @onclick="() => loadBudget(2018)">2018</button>
+<button class="btn btn-primary" @onclick="() => loadBudget(2019)">2019</button>
+
+<h1 id="budget-title"></h1>
+<table>
+    <tr>
+        <td id="budget-pie">
+            <svg width="400" height="300"> </svg>
+        </td>
+        <td width="10">
+        </td>
+        <td id="budget-legend">
+        </td>
+    </tr>
+</table>
+
+@code {
+    Models.Budget budget;
+
+    protected async Task loadBudget(int year)
+    {
+        budget = await Http.GetJsonAsync<Models.Budget>
+            ("budget/" + year);
+        await JSRuntime.InvokeVoidAsync(
+                "showBudgetTitle", "#budget-title", budget.Year);
+        await JSRuntime.InvokeVoidAsync(
+                "showLegend", "#budget-legend", budget.Items);
+        await JSRuntime.InvokeVoidAsync(
+                "showPieChart", "#budget-pie", budget.Items);
+    }
+
+}

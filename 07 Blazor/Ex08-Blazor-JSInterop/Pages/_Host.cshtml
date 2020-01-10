@@ -1,0 +1,101 @@
+﻿@page "/"
+@namespace Ex08_Blazor_JSInterop.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ex08-Blazor-JSInterop</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="tooltip"></div>
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+    </app>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        var colors = ["#be7878", "#8abe78", "#789abe", "#be9878", "#a178be", "#78bea4", "#c64c25", "#f1ae45"];
+
+        window.showBudgetTitle = (id, year) => {
+            d3.select(id).text(y => "Budet " + year);
+        };
+
+        window.showLegend = (id, items) => {
+            var legend = d3.select(id).selectAll("span")
+                .data(items)
+                .text(i => i.accountGroup.name + " (" + i.amount + ")");
+            legend.append("br");
+            legend.enter()
+                .append("span")
+                .style("color", (d, i) => colors[i])
+                .text(i => i.accountGroup.name + " (" + i.amount + ")")
+                .append("br");
+        };
+
+        window.showPieChart = (id, items) => {
+            var svg = d3.select(id + " svg");
+            var width = svg.attr("width");
+            var height = svg.attr("height");
+            var radius = Math.min(width, height) / 2;
+
+            svg.select("g").remove();
+
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            var color = d3.scaleOrdinal(colors);
+
+            // Generate the pie
+            var pie = d3.pie().sort(null).value(d => d.amount);
+
+            // Generate the arcs
+            var arc = d3.arc()
+                .innerRadius(10)
+                .outerRadius(radius);
+
+            // Add arcs to dom
+            var arcs = g.selectAll("arc")
+                .data(pie(items))
+                .enter()
+                .append("g")
+                .attr("class", "arc");
+
+            // Animate arcs
+            arcs.append("path")
+                .attr("fill", (d, i) => color(i))
+                .attr("d", arc)
+                .transition()
+                .duration(1000)
+                .attrTween("d", function (d) {
+                    var i = d3.interpolate(d.endAngle, d.startAngle);
+                    return function (t) {
+                        d.startAngle = i(t);
+                        return arc(d);
+                    }
+                });
+
+            arcs.on("mouseover", function (d) {
+                let div = d3.select(".tooltip");
+                div.html(d.data.accountGroup.name.replace(' ', '&nbsp;') + "<br/>" + d.data.amount);
+                let w = div.node().getBoundingClientRect().width;
+                div.style("left", (d3.event.pageX - w/2) + "px")
+                    .style("top", (d3.event.pageY - 30) + "px");
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+            }).on("mouseout", function (d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+        }
+    </script>
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>
